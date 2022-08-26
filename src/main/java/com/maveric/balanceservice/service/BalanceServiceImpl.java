@@ -33,4 +33,16 @@ public class BalanceServiceImpl implements BalanceService{
         Balance balanceResult = repository.save(balance);
         return  mapper.map(balanceResult);
     }
+    @Override
+    public BalanceDto updateBalance(String balanceId, BalanceDto balanceDto) {
+        Balance balanceResult=repository.findById(balanceId).orElseThrow(() -> new BalanceNotFoundException("Balance not found"));
+        balanceResult.set_id(balanceResult.get_id());
+        balanceResult.setAmount(balanceDto.getAmount());
+        balanceResult.setCurrency(balanceDto.getCurrency());
+        balanceResult.setAccountId(balanceResult.getAccountId());
+        balanceResult.setCreatedAt(balanceResult.getCreatedAt());
+        balanceResult.setUpdatedAt(getCurrentDateTime());
+        Balance accountUpdated = repository.save(balanceResult);
+        return mapper.map(accountUpdated);
+    }
 }
