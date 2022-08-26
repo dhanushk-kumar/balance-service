@@ -19,4 +19,10 @@ public class balanceController {
         BalanceDto BalanceDtoResponse = balanceService.createBalance(balanceDto);
         return new ResponseEntity<BalanceDto>(BalanceDtoResponse, HttpStatus.OK);
     }
+
+    @PutMapping("accounts/{accountId}/balances/{balanceId}")
+    public ResponseEntity<BalanceDto> updateBalance(@PathVariable String accountId,@PathVariable String balanceId,@RequestBody BalanceDto balanceDto) {
+        BalanceDto balanceDtoResponse = balanceService.updateBalance(balanceId,balanceDto);
+        return new ResponseEntity<BalanceDto>(balanceDtoResponse, HttpStatus.OK);
+    }
 }
