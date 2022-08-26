@@ -66,4 +66,9 @@ public class BalanceServiceImpl implements BalanceService{
             return new ArrayList<>();
         }
     }
+    @Override
+    public BalanceDto getBalanceDetails(String balanceId) {
+        Balance balanceResult=repository.findById(balanceId).orElseThrow(() -> new BalanceNotFoundException("Balance not found"));
+        return mapper.map(balanceResult);
+    }
 }
