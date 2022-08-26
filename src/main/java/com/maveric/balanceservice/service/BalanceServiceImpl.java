@@ -45,4 +45,10 @@ public class BalanceServiceImpl implements BalanceService{
         Balance accountUpdated = repository.save(balanceResult);
         return mapper.map(accountUpdated);
     }
+
+    @Override
+    public String deleteBalance(String balanceId) {
+        repository.deleteById(balanceId);
+        return "Balance deleted successfully.";
+    }
 }

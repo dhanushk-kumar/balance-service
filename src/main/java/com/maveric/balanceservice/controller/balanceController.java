@@ -25,4 +25,10 @@ public class balanceController {
         BalanceDto balanceDtoResponse = balanceService.updateBalance(balanceId,balanceDto);
         return new ResponseEntity<BalanceDto>(balanceDtoResponse, HttpStatus.OK);
     }
+
+    @DeleteMapping("accounts/{accountId}/balances/{balancesId}")
+    public ResponseEntity<String> deleteBalance(@PathVariable String accountId,@PathVariable String balancesId) {
+        String result = balanceService.deleteBalance(balancesId);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }
