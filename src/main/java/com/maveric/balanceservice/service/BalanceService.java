@@ -9,4 +9,5 @@ public interface BalanceService {
     public BalanceDto updateBalance(String balanceId,BalanceDto balanceDto);
     public String deleteBalance(String balanceId);
     public List<BalanceDto> getBalances(Integer page, Integer pageSize);
+    public BalanceDto getBalanceDetails(String balanceId);
 }

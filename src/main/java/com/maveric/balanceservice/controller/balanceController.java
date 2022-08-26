@@ -38,4 +38,10 @@ public class balanceController {
         List<BalanceDto> balanceDtoResponse = balanceService.getBalances(page,pageSize);
         return new ResponseEntity<List<BalanceDto>>(balanceDtoResponse, HttpStatus.OK);
     }
+
+    @GetMapping("accounts/{accountId}/balances/{balanceId}")
+    public ResponseEntity<String> getTransactionDetails(@PathVariable String accountId,@PathVariable String balanceId) {
+        BalanceDto BalanceDtoResponse = balanceService.getBalanceDetails(balanceId);
+        return new ResponseEntity<String>(String.valueOf(BalanceDtoResponse.getAmount()), HttpStatus.OK);
+    }
 }
