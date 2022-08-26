@@ -31,4 +31,11 @@ public class balanceController {
         String result = balanceService.deleteBalance(balancesId);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @GetMapping("accounts/{accountId}/balances")
+    public ResponseEntity<List<BalanceDto>> getBalances(@PathVariable String accountId, @RequestParam(defaultValue = "0") Integer page,
+                                                        @RequestParam(defaultValue = "10") Integer pageSize) {
+        List<BalanceDto> balanceDtoResponse = balanceService.getBalances(page,pageSize);
+        return new ResponseEntity<List<BalanceDto>>(balanceDtoResponse, HttpStatus.OK);
+    }
 }

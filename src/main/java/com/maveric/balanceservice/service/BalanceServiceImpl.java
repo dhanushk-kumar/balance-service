@@ -51,4 +51,19 @@ public class BalanceServiceImpl implements BalanceService{
         repository.deleteById(balanceId);
         return "Balance deleted successfully.";
     }
+    @Override
+    public List<BalanceDto> getBalances(Integer page, Integer pageSize) {
+        Pageable paging = (Pageable) PageRequest.of(page, pageSize);
+        Page<Balance> pageResult = repository.findAll(paging);
+        if(pageResult.hasContent()) {
+            return pageResult.getContent().stream()
+                    .map(
+                            transaction -> mapper.map(transaction)
+                    ).collect(
+                            Collectors.toList()
+                    );
+        } else {
+            return new ArrayList<>();
+        }
+    }
 }
