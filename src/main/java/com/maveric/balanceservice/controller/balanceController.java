@@ -40,7 +40,7 @@ public class balanceController {
     }
 
     @GetMapping("accounts/{accountId}/balances/{balanceId}")
-    public ResponseEntity<String> getTransactionDetails(@PathVariable String accountId,@PathVariable String balanceId) {
+    public ResponseEntity<String> getBalanceDetails(@PathVariable String accountId,@PathVariable String balanceId) {
         BalanceDto BalanceDtoResponse = balanceService.getBalanceDetails(balanceId);
         return new ResponseEntity<String>(String.valueOf(BalanceDtoResponse.getAmount()), HttpStatus.OK);
     }

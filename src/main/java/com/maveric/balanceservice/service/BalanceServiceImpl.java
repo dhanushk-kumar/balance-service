@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.maveric.balanceservice.constants.Constants.getCurrentDateTime;
+import static com.maveric.balanceservice.utility.ModelDtoTransformer.toDto;
+import static com.maveric.balanceservice.utility.ModelDtoTransformer.toEntity;
 
 @Service
 public class BalanceServiceImpl implements BalanceService{
@@ -29,9 +31,9 @@ public class BalanceServiceImpl implements BalanceService{
     public BalanceDto createBalance(BalanceDto balanceDto) {
         balanceDto.setCreatedAt(getCurrentDateTime());
         balanceDto.setUpdatedAt(getCurrentDateTime());
-        Balance balance = mapper.map(balanceDto);
+        Balance balance = toEntity(balanceDto);
         Balance balanceResult = repository.save(balance);
-        return  mapper.map(balanceResult);
+        return  toDto(balanceResult);
     }
     @Override
     public BalanceDto updateBalance(String balanceId, BalanceDto balanceDto) {
@@ -53,22 +55,30 @@ public class BalanceServiceImpl implements BalanceService{
     }
     @Override
     public List<BalanceDto> getBalances(Integer page, Integer pageSize) {
-        Pageable paging = (Pageable) PageRequest.of(page, pageSize);
-        Page<Balance> pageResult = repository.findAll(paging);
-        if(pageResult.hasContent()) {
-            return pageResult.getContent().stream()
-                    .map(
-                            transaction -> mapper.map(transaction)
-                    ).collect(
-                            Collectors.toList()
-                    );
-        } else {
-            return new ArrayList<>();
+//        Pageable paging = (Pageable) PageRequest.of(page, pageSize);
+//        Page<Balance> pageResult = repository.findAll(paging);
+//        if(pageResult.hasContent()) {
+//            return pageResult.getContent().stream()
+//                    .map(
+//                            transaction -> toDto(transaction)
+//                    ).collect(
+//                            Collectors.toList()
+//                    );
+//        } else {
+//            return new ArrayList<>();
+//        }
+
+        List<Balance> list= repository.findAll();
+        List<BalanceDto> listDto = new ArrayList<BalanceDto>(list.size());
+        for(Balance balance:list)
+        {
+            listDto.add(toDto(balance));
         }
+        return listDto;
     }
     @Override
     public BalanceDto getBalanceDetails(String balanceId) {
         Balance balanceResult=repository.findById(balanceId).orElseThrow(() -> new BalanceNotFoundException("Balance not found"));
-        return mapper.map(balanceResult);
+        return toDto(balanceResult);
     }
 }
